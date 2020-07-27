@@ -288,8 +288,13 @@ PreparedStatement pst=null;
 
         jScrollPane1.setBorder(new javax.swing.border.LineBorder(java.awt.Color.white, 1, true));
 
+        tblpacientes = new javax.swing.JTable(){
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return false;
+            }
+        };
         tblpacientes.setAutoCreateRowSorter(true);
-        tblpacientes.setFont(new java.awt.Font("Norasi", 0, 18)); // NOI18N
+        tblpacientes.setFont(new java.awt.Font("Norasi", 0, 12)); // NOI18N
         tblpacientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
