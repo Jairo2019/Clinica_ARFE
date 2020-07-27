@@ -16,6 +16,10 @@ public class Clinica_ARFE {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+
+            Interfaces.I_Login f = new Interfaces.I_Login();
+           f.setVisible(true);
+
     }
     
 }
