@@ -10,11 +10,13 @@ import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Date;
+import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
-
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Jean Martell
@@ -28,6 +30,7 @@ public class I_Pacientes extends javax.swing.JFrame {
 Date dato = null;
 ResultSet rs=null;
 PreparedStatement pst=null;
+
 
     public I_Pacientes() {
         initComponents();
@@ -46,8 +49,6 @@ PreparedStatement pst=null;
 
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
-        lblshutdown = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         lblinventario = new javax.swing.JLabel();
         lblmain = new javax.swing.JLabel();
@@ -55,11 +56,12 @@ PreparedStatement pst=null;
         Admit = new javax.swing.JLabel();
         lblpacientes = new javax.swing.JLabel();
         Admit2 = new javax.swing.JLabel();
+        btnshutdown = new javax.swing.JButton();
         lbluser = new javax.swing.JLabel();
         lbluser1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblpacientes = new javax.swing.JTable();
-        txtDoctorName = new javax.swing.JTextField();
+        txtbuscar = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         btnNew = new javax.swing.JButton();
         btnbuscar = new javax.swing.JButton();
@@ -73,44 +75,6 @@ PreparedStatement pst=null;
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel4.setBackground(new java.awt.Color(22, 29, 83));
-
-        jPanel6.setBackground(new java.awt.Color(72, 100, 242));
-        jPanel6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jPanel6MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jPanel6MouseExited(evt);
-            }
-        });
-
-        lblshutdown.setFont(new java.awt.Font("Raleway Black", 0, 18)); // NOI18N
-        lblshutdown.setForeground(java.awt.Color.white);
-        lblshutdown.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/shutdown_48.png"))); // NOI18N
-        lblshutdown.setText("Cerrar Sistema");
-        lblshutdown.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lblshutdown.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblshutdownMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblshutdownMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblshutdownMouseExited(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblshutdown, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblshutdown, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
 
         jPanel7.setBackground(new java.awt.Color(72, 100, 242));
         jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -243,20 +207,46 @@ PreparedStatement pst=null;
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        btnshutdown.setBackground(new java.awt.Color(255, 153, 153));
+        btnshutdown.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnshutdown.setForeground(new java.awt.Color(255, 255, 255));
+        btnshutdown.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/shutdown_48.png"))); // NOI18N
+        btnshutdown.setText("Cerrar Sistema");
+        btnshutdown.setToolTipText("");
+        btnshutdown.setAutoscrolls(true);
+        btnshutdown.setBorder(null);
+        btnshutdown.setContentAreaFilled(false);
+        btnshutdown.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnshutdown.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnshutdown.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnshutdownMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnshutdownMouseExited(evt);
+            }
+        });
+        btnshutdown.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnshutdownActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnshutdown, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(2, 2, 2))
-                    .addComponent(lblmain, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(2, 2, 2))
+                            .addComponent(lblmain, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -269,8 +259,8 @@ PreparedStatement pst=null;
                 .addGap(37, 37, 37)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 336, Short.MAX_VALUE)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51))
+                .addComponent(btnshutdown, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43))
         );
 
         jPanel3.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 230, 620));
@@ -318,9 +308,14 @@ PreparedStatement pst=null;
 
         jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 160, 680, 440));
 
-        txtDoctorName.setFont(new java.awt.Font("Norasi", 0, 18)); // NOI18N
-        txtDoctorName.setBorder(null);
-        jPanel3.add(txtDoctorName, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 114, 210, 30));
+        txtbuscar.setFont(new java.awt.Font("Norasi", 0, 18)); // NOI18N
+        txtbuscar.setBorder(null);
+        txtbuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtbuscarKeyReleased(evt);
+            }
+        });
+        jPanel3.add(txtbuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 114, 210, 30));
         jPanel3.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 152, 210, 10));
 
         btnNew.setBackground(new java.awt.Color(72, 100, 242));
@@ -396,38 +391,17 @@ PreparedStatement pst=null;
         pack();
     }// </editor-fold>//GEN-END:initComponents
     //obteder datos de la DB
-    private void Get_Data(){
+    public  void Get_Data(){
         String sql="select PacienteIdentidad as 'Identidad', PacienteNombres as 'Nombre', PacienteApellidos as 'Apellido', PacienteEdad as 'Edad', PacienteSexo as 'Genero', PacienteTelefono as 'Teléfono',PacienteCorreo as 'Correo', PacienteFecha AS 'Fecha y Hora Ingreso' from paciente";
         try{
          pst=con.prepareStatement(sql);
           rs= pst.executeQuery();
-         tblpacientes.setModel(DbUtils.resultSetToTableModel(rs));
-        //tblpacientes.removeColumn(tblpacientes.getColumnModel().getColumn(0));
+        tblpacientes.setModel(DbUtils.resultSetToTableModel(rs));
          }catch(Exception e){
             JOptionPane.showMessageDialog(null, e);
           
 }
   }
-    private void lblshutdownMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblshutdownMouseClicked
-        System.exit(0);
-    }//GEN-LAST:event_lblshutdownMouseClicked
-
-    private void lblshutdownMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblshutdownMouseEntered
-        jPanel6.setBackground(new Color(30,34,61));        // TODO add your handling code here:
-    }//GEN-LAST:event_lblshutdownMouseEntered
-
-    private void lblshutdownMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblshutdownMouseExited
-        jPanel6.setBackground(new Color(52,73,94));         // TODO add your handling code here:
-    }//GEN-LAST:event_lblshutdownMouseExited
-
-    private void jPanel6MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseEntered
-        jPanel6.setBackground(new Color(30,34,61));
-    }//GEN-LAST:event_jPanel6MouseEntered
-
-    private void jPanel6MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseExited
-        jPanel6.setBackground(new Color(52,73,94));        // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel6MouseExited
-
     private void lblinventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblinventarioMouseClicked
         this.dispose();
         I_Inventario f= new I_Inventario();
@@ -536,6 +510,46 @@ PreparedStatement pst=null;
         // TODO add your handling code here:
     }//GEN-LAST:event_btnbuscarActionPerformed
 
+    private void txtbuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbuscarKeyReleased
+        String buscar = txtbuscar.getText();
+            try{
+            DefaultTableModel dt = (DefaultTableModel) tblpacientes.getModel();
+            dt.setRowCount(0);
+            Statement s = Conexion.ConnectDB().createStatement();
+            
+            ResultSet rs = s.executeQuery("select PacienteIdentidad as 'Identidad', PacienteNombres as 'Nombre', PacienteApellidos as 'Apellido', PacienteEdad as 'Edad', PacienteSexo as 'Genero', PacienteTelefono as 'Teléfono',PacienteCorreo as 'Correo', PacienteFecha AS 'Fecha y Hora Ingreso' from paciente where PacienteNombres  like '%"+buscar+"%'");
+            while (rs.next()){
+                Vector v = new Vector();
+                v.add(rs.getString(1));
+                v.add(rs.getString(2));
+                v.add(rs.getString(3));
+                v.add(rs.getString(4));
+                v.add(rs.getString(5));
+                v.add(rs.getString(6));
+                v.add(rs.getString(7));
+                v.add(rs.getString(8));
+                dt.addRow(v);
+            }
+            }catch(Exception e){
+                Get_Data();
+            }
+    }//GEN-LAST:event_txtbuscarKeyReleased
+
+    private void btnshutdownMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnshutdownMouseEntered
+        btnshutdown.setBackground(new Color(72, 100, 242));        // TODO add your handling code here:
+    }//GEN-LAST:event_btnshutdownMouseEntered
+
+    private void btnshutdownMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnshutdownMouseExited
+        btnshutdown.setBackground(new Color(58, 76, 214));// TODO add your handling code here:
+    }//GEN-LAST:event_btnshutdownMouseExited
+
+    private void btnshutdownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnshutdownActionPerformed
+        int P = JOptionPane.showConfirmDialog(null," Seguro que desea Cerrar el Sistema ?","Confirmación",JOptionPane.YES_NO_OPTION);
+        if (P==0){
+            System.exit(0);
+        }// TODO add your handling code here:
+    }//GEN-LAST:event_btnshutdownActionPerformed
+   
     /**
      * @param args the command line arguments
      */
@@ -577,20 +591,19 @@ PreparedStatement pst=null;
     private javax.swing.JLabel Admit2;
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnbuscar;
+    private javax.swing.JButton btnshutdown;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblinventario;
     private javax.swing.JLabel lblmain;
     private javax.swing.JLabel lblpacientes;
-    private javax.swing.JLabel lblshutdown;
     private javax.swing.JLabel lbluser;
     private javax.swing.JLabel lbluser1;
-    private javax.swing.JTable tblpacientes;
-    public javax.swing.JTextField txtDoctorName;
+    public static javax.swing.JTable tblpacientes;
+    public javax.swing.JTextField txtbuscar;
     // End of variables declaration//GEN-END:variables
 }

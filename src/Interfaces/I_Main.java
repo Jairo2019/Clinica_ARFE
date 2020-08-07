@@ -6,6 +6,7 @@
 package Interfaces;
 
 import java.awt.Color;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,6 +20,7 @@ public class I_Main extends javax.swing.JFrame {
     public I_Main() {
         initComponents();
         setLocationRelativeTo(null); 
+
     }
 
     /**
@@ -32,8 +34,6 @@ public class I_Main extends javax.swing.JFrame {
 
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
-        Room = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         Admit3 = new javax.swing.JLabel();
         Admit4 = new javax.swing.JLabel();
@@ -43,12 +43,11 @@ public class I_Main extends javax.swing.JFrame {
         Admit = new javax.swing.JLabel();
         lblpatient = new javax.swing.JLabel();
         Admit2 = new javax.swing.JLabel();
+        btnshutdown = new javax.swing.JButton();
         pnlfactura = new javax.swing.JPanel();
         btnfactura = new javax.swing.JButton();
         lbluser = new javax.swing.JLabel();
         lbluser1 = new javax.swing.JLabel();
-        pnlcontabilidad = new javax.swing.JPanel();
-        btnconta = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -59,43 +58,6 @@ public class I_Main extends javax.swing.JFrame {
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel4.setBackground(new java.awt.Color(22, 29, 83));
-
-        jPanel6.setBackground(new java.awt.Color(72, 100, 242));
-        jPanel6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jPanel6MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jPanel6MouseExited(evt);
-            }
-        });
-
-        Room.setFont(new java.awt.Font("Raleway Black", 0, 18)); // NOI18N
-        Room.setForeground(java.awt.Color.white);
-        Room.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/shutdown_48.png"))); // NOI18N
-        Room.setText("Cerrar Sistema");
-        Room.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                RoomMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                RoomMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                RoomMouseExited(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Room, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Room, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
 
         jPanel7.setBackground(new java.awt.Color(72, 100, 242));
         jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -267,20 +229,46 @@ public class I_Main extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        btnshutdown.setBackground(new java.awt.Color(255, 153, 153));
+        btnshutdown.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnshutdown.setForeground(new java.awt.Color(255, 255, 255));
+        btnshutdown.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/shutdown_48.png"))); // NOI18N
+        btnshutdown.setText("Cerrar Sistema");
+        btnshutdown.setToolTipText("");
+        btnshutdown.setAutoscrolls(true);
+        btnshutdown.setBorder(null);
+        btnshutdown.setContentAreaFilled(false);
+        btnshutdown.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnshutdown.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnshutdown.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnshutdownMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnshutdownMouseExited(evt);
+            }
+        });
+        btnshutdown.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnshutdownActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnshutdown, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(2, 2, 2))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(2, 2, 2))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -292,9 +280,9 @@ public class I_Main extends javax.swing.JFrame {
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(37, 37, 37)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 336, Short.MAX_VALUE)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 348, Short.MAX_VALUE)
+                .addComponent(btnshutdown, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31))
         );
 
         jPanel3.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 230, 620));
@@ -340,20 +328,20 @@ public class I_Main extends javax.swing.JFrame {
         pnlfactura.setLayout(pnlfacturaLayout);
         pnlfacturaLayout.setHorizontalGroup(
             pnlfacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlfacturaLayout.createSequentialGroup()
+            .addGroup(pnlfacturaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnfactura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnfactura, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pnlfacturaLayout.setVerticalGroup(
             pnlfacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlfacturaLayout.createSequentialGroup()
+            .addGroup(pnlfacturaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnfactura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnfactura, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jPanel3.add(pnlfactura, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 170, 210, 270));
+        jPanel3.add(pnlfactura, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 190, 210, 270));
 
         lbluser.setFont(new java.awt.Font("Raleway", 1, 24)); // NOI18N
         lbluser.setForeground(new java.awt.Color(0, 0, 0));
@@ -365,62 +353,6 @@ public class I_Main extends javax.swing.JFrame {
         lbluser1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/userr.png"))); // NOI18N
         lbluser1.setText("Maria Ardon");
         jPanel3.add(lbluser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 10, 170, 40));
-
-        pnlcontabilidad.setBackground(new java.awt.Color(72, 100, 242));
-        pnlcontabilidad.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(10, 24, 39), 1, true));
-        pnlcontabilidad.setPreferredSize(new java.awt.Dimension(130, 130));
-        pnlcontabilidad.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                pnlcontabilidadMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                pnlcontabilidadMouseExited(evt);
-            }
-        });
-
-        btnconta.setBackground(new java.awt.Color(204, 204, 255));
-        btnconta.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        btnconta.setForeground(new java.awt.Color(255, 255, 255));
-        btnconta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/accounting_64.png"))); // NOI18N
-        btnconta.setText("Contabilidad");
-        btnconta.setToolTipText("");
-        btnconta.setBorder(null);
-        btnconta.setContentAreaFilled(false);
-        btnconta.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnconta.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnconta.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnconta.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btncontaMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btncontaMouseExited(evt);
-            }
-        });
-        btnconta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btncontaActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout pnlcontabilidadLayout = new javax.swing.GroupLayout(pnlcontabilidad);
-        pnlcontabilidad.setLayout(pnlcontabilidadLayout);
-        pnlcontabilidadLayout.setHorizontalGroup(
-            pnlcontabilidadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlcontabilidadLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnconta, javax.swing.GroupLayout.PREFERRED_SIZE, 140, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        pnlcontabilidadLayout.setVerticalGroup(
-            pnlcontabilidadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlcontabilidadLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnconta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jPanel3.add(pnlcontabilidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 170, 210, 270));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -441,26 +373,6 @@ public class I_Main extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void RoomMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RoomMouseClicked
-        System.exit(0);
-    }//GEN-LAST:event_RoomMouseClicked
-
-    private void RoomMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RoomMouseEntered
-        jPanel6.setBackground(new Color(30,34,61));        // TODO add your handling code here:
-    }//GEN-LAST:event_RoomMouseEntered
-
-    private void RoomMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RoomMouseExited
-        jPanel6.setBackground(new Color(52,73,94));         // TODO add your handling code here:
-    }//GEN-LAST:event_RoomMouseExited
-
-    private void jPanel6MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseEntered
-        jPanel6.setBackground(new Color(30,34,61));
-    }//GEN-LAST:event_jPanel6MouseEntered
-
-    private void jPanel6MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseExited
-        jPanel6.setBackground(new Color(52,73,94));        // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel6MouseExited
 
     private void lblinventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblinventarioMouseClicked
         this.dispose();
@@ -560,40 +472,34 @@ public class I_Main extends javax.swing.JFrame {
        // pnlcontabilidad.setBackground(new Color(58, 76, 214)); // TODO add your handling code here:
     }//GEN-LAST:event_pnlfacturaMouseEntered
 
+    private void btnshutdownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnshutdownActionPerformed
+      int P = JOptionPane.showConfirmDialog(null," Seguro que desea Cerrar el Sistema ?","Confirmación",JOptionPane.YES_NO_OPTION);
+        if (P==0){
+            System.exit(0);
+    }// TODO add your handling code here:
+    }//GEN-LAST:event_btnshutdownActionPerformed
+
+    private void btnshutdownMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnshutdownMouseExited
+        pnlfactura.setBackground(new Color(58, 76, 214));// TODO add your handling code here:
+    }//GEN-LAST:event_btnshutdownMouseExited
+
+    private void btnshutdownMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnshutdownMouseEntered
+        pnlfactura.setBackground(new Color(72, 100, 242));        // TODO add your handling code here:
+    }//GEN-LAST:event_btnshutdownMouseEntered
+
+    private void btnfacturaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnfacturaMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnfacturaMouseEntered
+
+    private void btnfacturaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnfacturaMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnfacturaMouseExited
+
     private void btnfacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnfacturaActionPerformed
         this.dispose();
         I_Factura f = new I_Factura();
-        f.show();// TODO add your handling code here:
+        f.show();        // TODO add your handling code here:
     }//GEN-LAST:event_btnfacturaActionPerformed
-
-    private void btnfacturaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnfacturaMouseExited
-        pnlfactura.setBackground(new Color(58, 76, 214));// TODO add your handling code here:
-    }//GEN-LAST:event_btnfacturaMouseExited
-
-    private void btnfacturaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnfacturaMouseEntered
-        pnlfactura.setBackground(new Color(72, 100, 242));        // TODO add your handling code here:
-    }//GEN-LAST:event_btnfacturaMouseEntered
-
-    private void btncontaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btncontaMouseEntered
-        pnlcontabilidad.setBackground(new Color(58, 76, 214));  // TODO add your handling code here:
-    }//GEN-LAST:event_btncontaMouseEntered
-
-    private void btncontaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btncontaMouseExited
-        pnlcontabilidad.setBackground(new Color(72, 100, 242));;   
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btncontaMouseExited
-
-    private void btncontaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncontaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btncontaActionPerformed
-
-    private void pnlcontabilidadMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlcontabilidadMouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pnlcontabilidadMouseEntered
-
-    private void pnlcontabilidadMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlcontabilidadMouseExited
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pnlcontabilidadMouseExited
 
     /**
      * @param args the command line arguments
@@ -635,20 +541,17 @@ public class I_Main extends javax.swing.JFrame {
     private javax.swing.JLabel Admit2;
     private javax.swing.JLabel Admit3;
     private javax.swing.JLabel Admit4;
-    private javax.swing.JLabel Room;
-    private javax.swing.JButton btnconta;
     private javax.swing.JButton btnfactura;
+    private javax.swing.JButton btnshutdown;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JLabel lblinventario;
     private javax.swing.JLabel lblpatient;
     private javax.swing.JLabel lbluser;
     private javax.swing.JLabel lbluser1;
-    private javax.swing.JPanel pnlcontabilidad;
     private javax.swing.JPanel pnlfactura;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,8 +5,18 @@
  */
 package Interfaces;
 
+import conexion.Conexion;
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Date;
+import java.util.Vector;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
@@ -17,9 +27,14 @@ public class I_Factura extends javax.swing.JFrame {
     /**
      * Creates new form I_Main
      */
+    Connection con=Conexion.ConnectDB();//Conecta a la cadena de conexión
+    Date dato = null;
+    ResultSet rs=null;
+    PreparedStatement pst=null;
     public I_Factura() {
         initComponents();
         setLocationRelativeTo(null); 
+        obtener_Data();
     }
 
     /**
@@ -33,8 +48,6 @@ public class I_Factura extends javax.swing.JFrame {
 
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
-        lblshutdown = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         Discharge = new javax.swing.JLabel();
         lblmain = new javax.swing.JLabel();
@@ -42,14 +55,16 @@ public class I_Factura extends javax.swing.JFrame {
         Admit = new javax.swing.JLabel();
         lblpacientes = new javax.swing.JLabel();
         Admit2 = new javax.swing.JLabel();
+        btnshutdown = new javax.swing.JButton();
         lbluser = new javax.swing.JLabel();
         lbluser1 = new javax.swing.JLabel();
-        txtDoctorName = new javax.swing.JTextField();
+        txtsearch = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         btnNew = new javax.swing.JButton();
         btnNew1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        TblDoc1 = new javax.swing.JTable();
+        tbl = new javax.swing.JTable();
+        btncategoria = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -60,44 +75,6 @@ public class I_Factura extends javax.swing.JFrame {
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel4.setBackground(new java.awt.Color(22, 29, 83));
-
-        jPanel6.setBackground(new java.awt.Color(72, 100, 242));
-        jPanel6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jPanel6MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jPanel6MouseExited(evt);
-            }
-        });
-
-        lblshutdown.setFont(new java.awt.Font("Raleway Black", 0, 18)); // NOI18N
-        lblshutdown.setForeground(java.awt.Color.white);
-        lblshutdown.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/shutdown_48.png"))); // NOI18N
-        lblshutdown.setText("Cerrar Sistema");
-        lblshutdown.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lblshutdown.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblshutdownMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblshutdownMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblshutdownMouseExited(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblshutdown, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblshutdown, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
 
         jPanel7.setBackground(new java.awt.Color(72, 100, 242));
         jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -230,6 +207,31 @@ public class I_Factura extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        btnshutdown.setBackground(new java.awt.Color(255, 153, 153));
+        btnshutdown.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnshutdown.setForeground(new java.awt.Color(255, 255, 255));
+        btnshutdown.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/shutdown_48.png"))); // NOI18N
+        btnshutdown.setText("Cerrar Sistema");
+        btnshutdown.setToolTipText("");
+        btnshutdown.setAutoscrolls(true);
+        btnshutdown.setBorder(null);
+        btnshutdown.setContentAreaFilled(false);
+        btnshutdown.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnshutdown.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnshutdown.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnshutdownMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnshutdownMouseExited(evt);
+            }
+        });
+        btnshutdown.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnshutdownActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -238,13 +240,14 @@ public class I_Factura extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(2, 2, 2))
                     .addComponent(lblmain, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
                     .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(btnshutdown, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -256,8 +259,8 @@ public class I_Factura extends javax.swing.JFrame {
                 .addGap(37, 37, 37)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 336, Short.MAX_VALUE)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51))
+                .addComponent(btnshutdown, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43))
         );
 
         jPanel3.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 230, 620));
@@ -265,7 +268,7 @@ public class I_Factura extends javax.swing.JFrame {
         lbluser.setFont(new java.awt.Font("Raleway", 1, 36)); // NOI18N
         lbluser.setForeground(new java.awt.Color(0, 0, 0));
         lbluser.setText("Caja");
-        jPanel3.add(lbluser, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 40, 90, 40));
+        jPanel3.add(lbluser, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 20, 90, 40));
 
         lbluser1.setFont(new java.awt.Font("Raleway", 1, 18)); // NOI18N
         lbluser1.setForeground(new java.awt.Color(0, 0, 0));
@@ -273,16 +276,21 @@ public class I_Factura extends javax.swing.JFrame {
         lbluser1.setText("Maria Ardon");
         jPanel3.add(lbluser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 10, 170, 40));
 
-        txtDoctorName.setFont(new java.awt.Font("Norasi", 0, 18)); // NOI18N
-        txtDoctorName.setBorder(null);
-        jPanel3.add(txtDoctorName, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 114, 210, 30));
-        jPanel3.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 152, 210, 10));
+        txtsearch.setFont(new java.awt.Font("Norasi", 0, 18)); // NOI18N
+        txtsearch.setBorder(null);
+        txtsearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtsearchKeyReleased(evt);
+            }
+        });
+        jPanel3.add(txtsearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 100, 210, 30));
+        jPanel3.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 140, 210, 10));
 
         btnNew.setBackground(new java.awt.Color(72, 100, 242));
         btnNew.setFont(new java.awt.Font("Raleway Black", 0, 18)); // NOI18N
         btnNew.setForeground(java.awt.Color.white);
         btnNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/edit.png"))); // NOI18N
-        btnNew.setText("Nuevo Factura");
+        btnNew.setText("Nueva Fac");
         btnNew.setToolTipText("");
         btnNew.setBorderPainted(false);
         btnNew.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -302,7 +310,7 @@ public class I_Factura extends javax.swing.JFrame {
                 btnNewActionPerformed(evt);
             }
         });
-        jPanel3.add(btnNew, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 110, 200, 32));
+        jPanel3.add(btnNew, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 100, 150, 32));
 
         btnNew1.setBackground(new java.awt.Color(72, 100, 242));
         btnNew1.setFont(new java.awt.Font("Raleway Black", 0, 18)); // NOI18N
@@ -317,11 +325,11 @@ public class I_Factura extends javax.swing.JFrame {
         btnNew1.setIconTextGap(0);
         btnNew1.setPreferredSize(new java.awt.Dimension(132, 44));
         btnNew1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnNew1MouseExited(evt);
-            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnNew1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnNew1MouseExited(evt);
             }
         });
         btnNew1.addActionListener(new java.awt.event.ActionListener() {
@@ -329,13 +337,13 @@ public class I_Factura extends javax.swing.JFrame {
                 btnNew1ActionPerformed(evt);
             }
         });
-        jPanel3.add(btnNew1, new org.netbeans.lib.awtextra.AbsoluteConstraints(485, 113, 70, 32));
+        jPanel3.add(btnNew1, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 100, 70, 32));
 
         jScrollPane2.setBorder(new javax.swing.border.LineBorder(java.awt.Color.white, 1, true));
 
-        TblDoc1.setAutoCreateRowSorter(true);
-        TblDoc1.setFont(new java.awt.Font("Norasi", 0, 18)); // NOI18N
-        TblDoc1.setModel(new javax.swing.table.DefaultTableModel(
+        tbl.setAutoCreateRowSorter(true);
+        tbl.setFont(new java.awt.Font("Norasi", 0, 12)); // NOI18N
+        tbl.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -346,17 +354,43 @@ public class I_Factura extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        TblDoc1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        TblDoc1.setGridColor(java.awt.Color.pink);
-        TblDoc1.setRowHeight(25);
-        TblDoc1.addMouseListener(new java.awt.event.MouseAdapter() {
+        tbl.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tbl.setGridColor(java.awt.Color.pink);
+        tbl.setRowHeight(25);
+        tbl.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                TblDoc1MouseClicked(evt);
+                tblMouseClicked(evt);
             }
         });
-        jScrollPane2.setViewportView(TblDoc1);
+        jScrollPane2.setViewportView(tbl);
 
         jPanel3.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 160, 680, 440));
+
+        btncategoria.setBackground(new java.awt.Color(72, 100, 242));
+        btncategoria.setFont(new java.awt.Font("Raleway Black", 0, 18)); // NOI18N
+        btncategoria.setForeground(java.awt.Color.white);
+        btncategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/edit.png"))); // NOI18N
+        btncategoria.setText("Tipo Examen");
+        btncategoria.setToolTipText("");
+        btncategoria.setBorderPainted(false);
+        btncategoria.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btncategoria.setFocusPainted(false);
+        btncategoria.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btncategoria.setPreferredSize(new java.awt.Dimension(132, 44));
+        btncategoria.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btncategoriaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btncategoriaMouseExited(evt);
+            }
+        });
+        btncategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btncategoriaActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btncategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 100, 180, 32));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -378,26 +412,63 @@ public class I_Factura extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void lblshutdownMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblshutdownMouseClicked
-        System.exit(0);
-    }//GEN-LAST:event_lblshutdownMouseClicked
-
-    private void lblshutdownMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblshutdownMouseEntered
-        jPanel6.setBackground(new Color(30,34,61));        // TODO add your handling code here:
-    }//GEN-LAST:event_lblshutdownMouseEntered
-
-    private void lblshutdownMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblshutdownMouseExited
-        jPanel6.setBackground(new Color(52,73,94));         // TODO add your handling code here:
-    }//GEN-LAST:event_lblshutdownMouseExited
-
-    private void jPanel6MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseEntered
-        jPanel6.setBackground(new Color(30,34,61));
-    }//GEN-LAST:event_jPanel6MouseEntered
-
-    private void jPanel6MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseExited
-        jPanel6.setBackground(new Color(52,73,94));        // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel6MouseExited
-
+          public void obtener_Data(){
+        String sql="select NumeroFactura as 'codigo'," +
+"                PacienteNombres as 'Nombre'," +
+"               PacienteApellidos as 'Apellido'," +
+"              TipoExamenNombre as 'Examen'," +
+"                FacturacionFecha as 'Fecha'," +
+"             FacturacionTipoPago as 'Tipo de Pago'," +
+"             FacturacionSubTotal as 'SubTotal'," +
+"               FacturacionISV as 'ISV'," +
+"               FacturacionTotal as 'Total' from facturacion inner join paciente" +
+" on Paciente_idPaciente = PacienteIdentidad inner join tipoexamen" +
+" ON  TipoExamen_idTipoExamen= idTipoExamen";
+        try{
+         pst=con.prepareStatement(sql);
+          rs= pst.executeQuery();
+          tbl.setModel(DbUtils.resultSetToTableModel(rs));
+          tbl.removeColumn(tbl.getColumnModel().getColumn(0));
+         }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+          
+}}
+          void buscar(){
+           String buscar = txtsearch.getText();
+            try{
+            DefaultTableModel dt = (DefaultTableModel) tbl.getModel();
+            dt.setRowCount(0);
+            Statement s = Conexion.ConnectDB().createStatement();
+            
+            ResultSet rs = s.executeQuery("select NumeroFactura as 'codigo'," +
+"                PacienteNombres as 'Nombre'," +
+"               PacienteApellidos as 'Apellido'," +
+"              TipoExamenNombre as 'Examen'," +
+"                FacturacionFecha as 'Fecha'," +
+"             FacturacionTipoPago as 'Tipo de Pago'," +
+"             FacturacionSubTotal as 'SubTotal'," +
+"               FacturacionISV as 'ISV'," +
+"               FacturacionTotal as 'Total' from facturacion inner join paciente" +
+" on Paciente_idPaciente = PacienteIdentidad inner join tipoexamen" +
+" ON  TipoExamen_idTipoExamen= idTipoExamen  where PacienteNombres like '%"+buscar+"%'");
+            while (rs.next()){
+                Vector v = new Vector();
+                v.add(rs.getString(1));
+                v.add(rs.getString(2));
+                v.add(rs.getString(3));
+                v.add(rs.getString(4));
+                v.add(rs.getString(5));
+                v.add(rs.getString(6));
+                v.add(rs.getString(7));
+                v.add(rs.getString(8));
+                v.add(rs.getString(9));
+                dt.addRow(v);
+            }
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null, e);
+                obtener_Data();
+            } 
+          }
     private void DischargeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DischargeMouseClicked
 
 
@@ -472,7 +543,7 @@ public class I_Factura extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNewMouseEntered
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
-        new I_New_Factura(new JFrame(), true).setVisible(true);
+        new I_New_Fact(new JFrame(), true).setVisible(true);
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void btnNew1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNew1MouseExited
@@ -487,9 +558,40 @@ public class I_Factura extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnNew1ActionPerformed
 
-    private void TblDoc1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TblDoc1MouseClicked
+    private void tblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_TblDoc1MouseClicked
+    }//GEN-LAST:event_tblMouseClicked
+
+    private void btncategoriaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btncategoriaMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btncategoriaMouseEntered
+
+    private void btncategoriaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btncategoriaMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btncategoriaMouseExited
+
+    private void btncategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncategoriaActionPerformed
+        new I_Tipo_Examen(new JFrame(), true).setVisible(true);              // TODO add your handling code here:
+    }//GEN-LAST:event_btncategoriaActionPerformed
+
+    private void btnshutdownMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnshutdownMouseEntered
+        btnshutdown.setBackground(new Color(72, 100, 242));        // TODO add your handling code here:
+    }//GEN-LAST:event_btnshutdownMouseEntered
+
+    private void btnshutdownMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnshutdownMouseExited
+        btnshutdown.setBackground(new Color(58, 76, 214));// TODO add your handling code here:
+    }//GEN-LAST:event_btnshutdownMouseExited
+
+    private void btnshutdownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnshutdownActionPerformed
+        int P = JOptionPane.showConfirmDialog(null," Seguro que desea Cerrar el Sistema ?","Confirmación",JOptionPane.YES_NO_OPTION);
+        if (P==0){
+            System.exit(0);
+        }// TODO add your handling code here:
+    }//GEN-LAST:event_btnshutdownActionPerformed
+
+    private void txtsearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtsearchKeyReleased
+        buscar();        // TODO add your handling code here:
+    }//GEN-LAST:event_txtsearchKeyReleased
 
     /**
      * @param args the command line arguments
@@ -537,21 +639,21 @@ public class I_Factura extends javax.swing.JFrame {
     private javax.swing.JLabel Admit;
     private javax.swing.JLabel Admit2;
     private javax.swing.JLabel Discharge;
-    private javax.swing.JTable TblDoc1;
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnNew1;
+    private javax.swing.JButton btncategoria;
+    private javax.swing.JButton btnshutdown;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblmain;
     private javax.swing.JLabel lblpacientes;
-    private javax.swing.JLabel lblshutdown;
     private javax.swing.JLabel lbluser;
     private javax.swing.JLabel lbluser1;
-    public javax.swing.JTextField txtDoctorName;
+    protected static javax.swing.JTable tbl;
+    public javax.swing.JTextField txtsearch;
     // End of variables declaration//GEN-END:variables
 }

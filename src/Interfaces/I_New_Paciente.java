@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import Interfaces.I_Pacientes;
+import net.proteanit.sql.DbUtils;
 
 
 /**
@@ -31,7 +31,9 @@ public class I_New_Paciente extends javax.swing.JDialog {
      */
 public static String identidad="", nombre, apellido, edad, sexo, telefono, correo;//para manejar lo que 
 SimpleDateFormat formatofecha = new SimpleDateFormat("dd/MM/yyyy");
-
+Connection con=null;
+Date dato = null;
+ResultSet rs=null;
 PreparedStatement pst=null;
     public I_New_Paciente(JFrame parent, boolean modal) {
         super(parent, modal);
@@ -370,6 +372,7 @@ PreparedStatement pst=null;
          SimpleDateFormat formatofecha = new SimpleDateFormat("dd/MM/YYYY HH:mm:ss");
          return formatofecha.format(fecha);
      }
+    //obtener datos de la tabla principal para colocar en las cajas de texto
     private void get_datos_table(){
      txtPatientID.setText(identidad);
      txtPatientName.setText(nombre);
@@ -393,10 +396,29 @@ PreparedStatement pst=null;
         nombre="";
         apellido="";
         edad="";
-        sexo="";
         telefono = "";
         correo="";
     }
+    //limpiar datos de las cajas de texto
+    void clear(){
+     txtEmail.setText("");
+     txtPatientID.setText("");
+     txtPatientName.setText("");
+     txtPatientlastname.setText("");
+     txtage.setText("");
+     txtphone.setText("");
+    }
+        public void obtener_Data(){
+        String sql="select PacienteIdentidad as 'Identidad', PacienteNombres as 'Nombre', PacienteApellidos as 'Apellido', PacienteEdad as 'Edad', PacienteSexo as 'Genero', PacienteTelefono as 'Teléfono',PacienteCorreo as 'Correo', PacienteFecha AS 'Fecha y Hora Ingreso' from paciente";
+        try{
+         pst=con.prepareStatement(sql);
+          rs= pst.executeQuery();
+            I_Pacientes.tblpacientes.setModel(DbUtils.resultSetToTableModel(rs));
+         }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+          
+            }
+        }
     private void btnguardarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnguardarMouseEntered
 
     }//GEN-LAST:event_btnguardarMouseEntered
@@ -407,7 +429,7 @@ PreparedStatement pst=null;
 
     private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
                try{
-            Connection con = Conexion.ConnectDB();
+            con=Conexion.ConnectDB();
             if (txtPatientID.getText().equals("")) {
                 JOptionPane.showMessageDialog( this, "Ingrese Numero de Identidad","Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -444,13 +466,15 @@ PreparedStatement pst=null;
                 return;
             }
             String sql= "insert into paciente(PacienteIdentidad, PacienteFecha, PacienteNombres, PacienteApellidos, PacienteEdad,PacienteSexo, PacienteTelefono, PacienteCorreo) values ('"+txtPatientID.getText()+"','" +fechaactual()+"','" +txtPatientName.getText()+"','" + txtPatientlastname.getText()+"','" +txtage.getText()+ "','" +cmbGender.getSelectedItem()+"','" +txtphone.getText()+"','" +txtEmail.getText()+ "')";
-            PreparedStatement pst = con.prepareStatement(sql);
+            pst=con.prepareStatement(sql);
             pst.execute();
-
             JOptionPane.showMessageDialog(this,"Registrado con éxito","Registro de Pacientes",JOptionPane.INFORMATION_MESSAGE);
+            obtener_Data();
             this.dispose();
-        }catch(HeadlessException | SQLException ex){
-            JOptionPane.showMessageDialog(this,ex);
+            limpiar();
+            
+        }catch( SQLException e){
+          //  JOptionPane.showMessageDialog(this,ex);
         }
     }//GEN-LAST:event_btnguardarActionPerformed
 
@@ -463,7 +487,20 @@ PreparedStatement pst=null;
     }//GEN-LAST:event_btneditarMouseExited
 
     private void btneditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneditarActionPerformed
-        // TODO add your handling code here:
+        try{
+            con=Conexion.ConnectDB();
+            String sql= "update paciente set PacienteNombres='"+ txtPatientName.getText()+ "',PacienteApellidos='" + txtPatientlastname.getText() + "',PacienteEdad='" + txtage.getText() +"',PacienteSexo='" + cmbGender.getSelectedItem() +"',PacienteTelefono='" + txtphone.getText()+"',PacienteCorreo='" + txtEmail.getText()  + "' where PacienteIdentidad='" + txtPatientID.getText()+ "'";
+            pst=con.prepareStatement(sql);
+            pst.execute();
+            JOptionPane.showMessageDialog(this,"Paciente Actualizado","Registro de Pacientes",JOptionPane.INFORMATION_MESSAGE);
+            obtener_Data();
+            this.dispose();
+            limpiar();
+        
+        }catch(SQLException e){
+            
+        }
+            // TODO add your handling code here:
     }//GEN-LAST:event_btneditarActionPerformed
 
     private void btnlimpiarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnlimpiarMouseEntered
@@ -475,7 +512,7 @@ PreparedStatement pst=null;
     }//GEN-LAST:event_btnlimpiarMouseExited
 
     private void btnlimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlimpiarActionPerformed
-        // TODO add your handling code here:
+       clear(); // TODO add your handling code here:
     }//GEN-LAST:event_btnlimpiarActionPerformed
 
     private void btneliminarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btneliminarMouseEntered
@@ -487,7 +524,24 @@ PreparedStatement pst=null;
     }//GEN-LAST:event_btneliminarMouseExited
 
     private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarActionPerformed
-        // TODO add your handling code here:
+                
+        try{
+        int P = JOptionPane.showConfirmDialog(null," Seguro que quiere borrarlo ?","Confirmación",JOptionPane.YES_NO_OPTION);
+            if (P==0)
+            {
+                con=Conexion.ConnectDB();
+
+                String sql= "delete from paciente where PacienteIdentidad='" + txtPatientID.getText() + "'";
+                pst=con.prepareStatement(sql);
+                pst.execute();
+                JOptionPane.showMessageDialog(this,"Borrado Exitosamente","Registro de Pacietes",JOptionPane.INFORMATION_MESSAGE);
+                obtener_Data();
+                limpiar();
+                this.dispose();
+            }}
+        catch(SQLException e){
+        
+        }// TODO add your handling code here:
     }//GEN-LAST:event_btneliminarActionPerformed
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked

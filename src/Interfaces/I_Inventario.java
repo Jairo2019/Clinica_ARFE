@@ -5,21 +5,39 @@
  */
 package Interfaces;
 
+import conexion.Conexion;
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Vector;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
  * @author Jean Martell
  */
-public class I_Inventario extends javax.swing.JFrame {
 
+public class I_Inventario extends javax.swing.JFrame {
     /**
      * Creates new form I_Main
      */
+    SimpleDateFormat formatofecha = new SimpleDateFormat("dd/MM/yyyy");
+    Connection con=Conexion.ConnectDB();//Conecta a la cadena de conexión
+    Date dato = null;
+    ResultSet rs=null;
+    PreparedStatement pst=null;
     public I_Inventario() {
         initComponents();
         setLocationRelativeTo(null); 
+        Get_Data();
     }
 
     /**
@@ -33,8 +51,6 @@ public class I_Inventario extends javax.swing.JFrame {
 
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
-        lblshutdown = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         Discharge = new javax.swing.JLabel();
         lblmain = new javax.swing.JLabel();
@@ -42,15 +58,16 @@ public class I_Inventario extends javax.swing.JFrame {
         Admit = new javax.swing.JLabel();
         lblpacientes = new javax.swing.JLabel();
         Admit2 = new javax.swing.JLabel();
+        btnshutdown = new javax.swing.JButton();
         lbluser = new javax.swing.JLabel();
         lbluser1 = new javax.swing.JLabel();
-        txtDoctorName = new javax.swing.JTextField();
+        txtsearch = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         btnNew = new javax.swing.JButton();
         btnNew1 = new javax.swing.JButton();
         btncategoria = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        TblDoc2 = new javax.swing.JTable();
+        tbl = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -61,44 +78,6 @@ public class I_Inventario extends javax.swing.JFrame {
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel4.setBackground(new java.awt.Color(22, 29, 83));
-
-        jPanel6.setBackground(new java.awt.Color(72, 100, 242));
-        jPanel6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jPanel6MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jPanel6MouseExited(evt);
-            }
-        });
-
-        lblshutdown.setFont(new java.awt.Font("Raleway Black", 0, 18)); // NOI18N
-        lblshutdown.setForeground(java.awt.Color.white);
-        lblshutdown.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/shutdown_48.png"))); // NOI18N
-        lblshutdown.setText("Cerrar Sistema");
-        lblshutdown.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lblshutdown.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblshutdownMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblshutdownMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblshutdownMouseExited(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblshutdown, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblshutdown, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
 
         jPanel7.setBackground(new java.awt.Color(72, 100, 242));
         jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -126,8 +105,8 @@ public class I_Inventario extends javax.swing.JFrame {
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addComponent(Discharge, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(Discharge, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,6 +210,31 @@ public class I_Inventario extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        btnshutdown.setBackground(new java.awt.Color(255, 153, 153));
+        btnshutdown.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnshutdown.setForeground(new java.awt.Color(255, 255, 255));
+        btnshutdown.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/shutdown_48.png"))); // NOI18N
+        btnshutdown.setText("Cerrar Sistema");
+        btnshutdown.setToolTipText("");
+        btnshutdown.setAutoscrolls(true);
+        btnshutdown.setBorder(null);
+        btnshutdown.setContentAreaFilled(false);
+        btnshutdown.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnshutdown.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnshutdown.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnshutdownMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnshutdownMouseExited(evt);
+            }
+        });
+        btnshutdown.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnshutdownActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -238,14 +242,16 @@ public class I_Inventario extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addComponent(lblmain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(2, 2, 2))
-                    .addComponent(lblmain, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(192, 192, 192)))
                 .addContainerGap())
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(btnshutdown, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -256,9 +262,9 @@ public class I_Inventario extends javax.swing.JFrame {
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(37, 37, 37)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 336, Short.MAX_VALUE)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 341, Short.MAX_VALUE)
+                .addComponent(btnshutdown, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38))
         );
 
         jPanel3.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 230, 620));
@@ -274,9 +280,14 @@ public class I_Inventario extends javax.swing.JFrame {
         lbluser1.setText("Maria Ardon");
         jPanel3.add(lbluser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 10, 170, 40));
 
-        txtDoctorName.setFont(new java.awt.Font("Norasi", 0, 18)); // NOI18N
-        txtDoctorName.setBorder(null);
-        jPanel3.add(txtDoctorName, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 114, 210, 30));
+        txtsearch.setFont(new java.awt.Font("Norasi", 0, 18)); // NOI18N
+        txtsearch.setBorder(null);
+        txtsearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtsearchKeyReleased(evt);
+            }
+        });
+        jPanel3.add(txtsearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 114, 210, 30));
         jPanel3.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 152, 210, 10));
 
         btnNew.setBackground(new java.awt.Color(72, 100, 242));
@@ -360,9 +371,9 @@ public class I_Inventario extends javax.swing.JFrame {
 
         jScrollPane3.setBorder(new javax.swing.border.LineBorder(java.awt.Color.white, 1, true));
 
-        TblDoc2.setAutoCreateRowSorter(true);
-        TblDoc2.setFont(new java.awt.Font("Norasi", 0, 18)); // NOI18N
-        TblDoc2.setModel(new javax.swing.table.DefaultTableModel(
+        tbl.setAutoCreateRowSorter(true);
+        tbl.setFont(new java.awt.Font("Norasi", 0, 12)); // NOI18N
+        tbl.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -373,15 +384,15 @@ public class I_Inventario extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        TblDoc2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        TblDoc2.setGridColor(java.awt.Color.pink);
-        TblDoc2.setRowHeight(25);
-        TblDoc2.addMouseListener(new java.awt.event.MouseAdapter() {
+        tbl.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tbl.setGridColor(java.awt.Color.pink);
+        tbl.setRowHeight(25);
+        tbl.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                TblDoc2MouseClicked(evt);
+                tblMouseClicked(evt);
             }
         });
-        jScrollPane3.setViewportView(TblDoc2);
+        jScrollPane3.setViewportView(tbl);
 
         jPanel3.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 160, 680, 440));
 
@@ -405,26 +416,43 @@ public class I_Inventario extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void lblshutdownMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblshutdownMouseClicked
-        System.exit(0);
-    }//GEN-LAST:event_lblshutdownMouseClicked
-
-    private void lblshutdownMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblshutdownMouseEntered
-        jPanel6.setBackground(new Color(30,34,61));        // TODO add your handling code here:
-    }//GEN-LAST:event_lblshutdownMouseEntered
-
-    private void lblshutdownMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblshutdownMouseExited
-        jPanel6.setBackground(new Color(52,73,94));         // TODO add your handling code here:
-    }//GEN-LAST:event_lblshutdownMouseExited
-
-    private void jPanel6MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseEntered
-        jPanel6.setBackground(new Color(30,34,61));
-    }//GEN-LAST:event_jPanel6MouseEntered
-
-    private void jPanel6MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseExited
-        jPanel6.setBackground(new Color(52,73,94));        // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel6MouseExited
-
+        public  void Get_Data(){
+        String sql="select idProducto as 'codigo', ProductoNombre as 'Producto',  " +
+"                 ProductoDescripcion as 'Descripcion'," +
+"                ProductoFechaEntrada as 'Fecha',  " +
+"                ProductoFechaVencimiento as 'Fecha Vencimiento',  " +
+"                ProductoCantidadInicial as 'Cantidad', " +
+"                ProductoPrecioUnitario as 'Precio',  " +
+"                CategoriaProductoNombre as 'Categoria' from producto inner join categoria_producto " +
+"on Categoria_Producto_idCategoriaProducto = idCategoriaProducto  ";
+        try{
+         pst=con.prepareStatement(sql);
+          rs= pst.executeQuery();
+          tbl.setModel(DbUtils.resultSetToTableModel(rs));
+          tbl.removeColumn(tbl.getColumnModel().getColumn(0));
+         }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+          
+}
+  }
+       //pasar los datos la tabla a cajas de texto
+        void table_pass(){
+            try {
+            int row= tbl.getSelectedRow();
+            I_New_Producto.idproducto=tbl.getModel().getValueAt(row,0).toString();
+            I_New_Producto.pnombre = tbl.getModel().getValueAt(row,1).toString();
+            I_New_Producto.pdescripcion = tbl.getModel().getValueAt(row,2).toString();
+            I_New_Producto.pfechaentrada= tbl.getModel().getValueAt(row,3).toString();
+            I_New_Producto.pfechavencimiento = tbl.getModel().getValueAt(row,4).toString();
+            I_New_Producto.pcantidad = tbl.getModel().getValueAt(row,5).toString();
+            I_New_Producto.pprecio = tbl.getModel().getValueAt(row,6).toString();
+            I_New_Producto.categoria = tbl.getModel().getValueAt(row,7).toString();
+            
+            new I_New_Producto(new JFrame(), true).setVisible(true);
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this,ex);
+        }   
+        }
     private void DischargeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DischargeMouseClicked
 
 
@@ -526,9 +554,56 @@ public class I_Inventario extends javax.swing.JFrame {
         new I_Categoria(new JFrame(), true).setVisible(true);              // TODO add your handling code here:
     }//GEN-LAST:event_btncategoriaActionPerformed
 
-    private void TblDoc2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TblDoc2MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TblDoc2MouseClicked
+    private void tblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMouseClicked
+        table_pass();                // TODO add your handling code here:
+    }//GEN-LAST:event_tblMouseClicked
+
+    private void btnshutdownMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnshutdownMouseEntered
+        btnshutdown.setBackground(new Color(72, 100, 242));        // TODO add your handling code here:
+    }//GEN-LAST:event_btnshutdownMouseEntered
+
+    private void btnshutdownMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnshutdownMouseExited
+        btnshutdown.setBackground(new Color(58, 76, 214));// TODO add your handling code here:
+    }//GEN-LAST:event_btnshutdownMouseExited
+
+    private void btnshutdownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnshutdownActionPerformed
+        int P = JOptionPane.showConfirmDialog(null," Seguro que desea Cerrar el Sistema ?","Confirmación",JOptionPane.YES_NO_OPTION);
+        if (P==0){
+            System.exit(0);
+        }// TODO add your handling code here:
+    }//GEN-LAST:event_btnshutdownActionPerformed
+
+    private void txtsearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtsearchKeyReleased
+                String buscar = txtsearch.getText();
+            try{
+            DefaultTableModel dt = (DefaultTableModel) tbl.getModel();
+            dt.setRowCount(0);
+            Statement s = Conexion.ConnectDB().createStatement();
+            
+            ResultSet rs = s.executeQuery("select idProducto as 'codigo', ProductoNombre as 'Producto',  " +
+"                 ProductoDescripcion as 'Descripcion'," +
+"                ProductoFechaEntrada as 'Fecha',  " +
+"                ProductoFechaVencimiento as 'Fecha Vencimiento',  " +
+"                ProductoCantidadInicial as 'Cantidad', " +
+"                ProductoPrecioUnitario as 'Precio',  " +
+"                CategoriaProductoNombre as 'Categoria' from producto inner join categoria_producto " +
+"on Categoria_Producto_idCategoriaProducto = idCategoriaProducto  where ProductoNombre like '%"+buscar+"%'");
+            while (rs.next()){
+                Vector v = new Vector();
+                v.add(rs.getString(1));
+                v.add(rs.getString(2));
+                v.add(rs.getString(3));
+                v.add(rs.getString(4));
+                v.add(rs.getString(5));
+                v.add(rs.getString(6));
+                v.add(rs.getString(7));
+                v.add(rs.getString(8));
+                dt.addRow(v);
+            }
+            }catch(Exception e){
+                Get_Data();
+            }        // TODO add your handling code here:
+    }//GEN-LAST:event_txtsearchKeyReleased
 
     /**
      * @param args the command line arguments
@@ -572,22 +647,21 @@ public class I_Inventario extends javax.swing.JFrame {
     private javax.swing.JLabel Admit;
     private javax.swing.JLabel Admit2;
     private javax.swing.JLabel Discharge;
-    private javax.swing.JTable TblDoc2;
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnNew1;
     private javax.swing.JButton btncategoria;
+    private javax.swing.JButton btnshutdown;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblmain;
     private javax.swing.JLabel lblpacientes;
-    private javax.swing.JLabel lblshutdown;
     private javax.swing.JLabel lbluser;
     private javax.swing.JLabel lbluser1;
-    public javax.swing.JTextField txtDoctorName;
+    public static javax.swing.JTable tbl;
+    public javax.swing.JTextField txtsearch;
     // End of variables declaration//GEN-END:variables
 }

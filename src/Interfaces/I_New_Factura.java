@@ -47,34 +47,22 @@ PreparedStatement pst=null;
 
         jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        txtPatientID = new javax.swing.JTextField();
-        txtPatientName = new javax.swing.JTextField();
-        txtDisease = new javax.swing.JTextField();
+        txtpaciente = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator4 = new javax.swing.JSeparator();
         txtPatientName2 = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        jSeparator8 = new javax.swing.JSeparator();
         txtPatientID1 = new javax.swing.JTextField();
-        jSeparator3 = new javax.swing.JSeparator();
         jLabel5 = new javax.swing.JLabel();
         btnbuscar_Insumos = new javax.swing.JButton();
-        txtPatientID2 = new javax.swing.JTextField();
+        txttexamen = new javax.swing.JTextField();
         jSeparator5 = new javax.swing.JSeparator();
         jLabel12 = new javax.swing.JLabel();
         jSeparator6 = new javax.swing.JSeparator();
         btnbuscar_paciente = new javax.swing.JButton();
-        txtPatientName1 = new javax.swing.JTextField();
-        jSeparator7 = new javax.swing.JSeparator();
         jScrollPane2 = new javax.swing.JScrollPane();
         TblDoc1 = new javax.swing.JTable();
-        jLabel13 = new javax.swing.JLabel();
-        txtPatientID3 = new javax.swing.JTextField();
-        jSeparator9 = new javax.swing.JSeparator();
         jPanel5 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         btnNew = new javax.swing.JButton();
@@ -93,49 +81,27 @@ PreparedStatement pst=null;
         jPanel1.setFont(new java.awt.Font("Norasi", 0, 18)); // NOI18N
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setFont(new java.awt.Font("Norasi", 0, 18)); // NOI18N
-        jLabel3.setText("Nombre del Examen:");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 180, -1, -1));
-
         jLabel6.setFont(new java.awt.Font("Norasi", 0, 18)); // NOI18N
         jLabel6.setText("ISV:");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 120, -1, -1));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 90, -1, -1));
 
-        jLabel7.setFont(new java.awt.Font("Norasi", 0, 18)); // NOI18N
-        jLabel7.setText("Medico Realiza:");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, -1, 20));
-
-        jLabel8.setFont(new java.awt.Font("Norasi", 0, 18)); // NOI18N
-        jLabel8.setText("Medico Indica:");
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, -1, -1));
-
-        txtPatientID.setFont(new java.awt.Font("Norasi", 0, 18)); // NOI18N
-        txtPatientID.setBorder(null);
-        jPanel1.add(txtPatientID, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 20, 230, 34));
-
-        txtPatientName.setFont(new java.awt.Font("Norasi", 0, 18)); // NOI18N
-        txtPatientName.setBorder(null);
-        jPanel1.add(txtPatientName, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 170, 230, 34));
-
-        txtDisease.setFont(new java.awt.Font("Norasi", 0, 18)); // NOI18N
-        txtDisease.setBorder(null);
-        jPanel1.add(txtDisease, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 120, 230, 34));
+        txtpaciente.setFont(new java.awt.Font("Norasi", 0, 18)); // NOI18N
+        txtpaciente.setBorder(null);
+        jPanel1.add(txtpaciente, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 20, 230, 34));
         jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 60, 230, 10));
-        jPanel1.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 150, 230, 10));
+        jPanel1.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 120, 230, 10));
 
         txtPatientName2.setFont(new java.awt.Font("Norasi", 0, 18)); // NOI18N
         txtPatientName2.setBorder(null);
-        jPanel1.add(txtPatientName2, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 110, 230, 34));
+        jPanel1.add(txtPatientName2, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 80, 230, 34));
 
         jLabel11.setFont(new java.awt.Font("Norasi", 0, 18)); // NOI18N
-        jLabel11.setText("Insumos:");
-        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 70, 80, -1));
-        jPanel1.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 160, 230, 8));
+        jLabel11.setText("Tipo de Examen:");
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 140, -1));
 
         txtPatientID1.setFont(new java.awt.Font("Norasi", 0, 18)); // NOI18N
         txtPatientID1.setBorder(null);
-        jPanel1.add(txtPatientID1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 60, 230, 34));
-        jPanel1.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 210, 230, 10));
+        jPanel1.add(txtPatientID1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 10, 230, 34));
 
         jLabel5.setFont(new java.awt.Font("Norasi", 0, 18)); // NOI18N
         jLabel5.setText("Paciente:");
@@ -166,17 +132,17 @@ PreparedStatement pst=null;
                 btnbuscar_InsumosActionPerformed(evt);
             }
         });
-        jPanel1.add(btnbuscar_Insumos, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 70, 70, 32));
+        jPanel1.add(btnbuscar_Insumos, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 90, 70, 32));
 
-        txtPatientID2.setFont(new java.awt.Font("Norasi", 0, 18)); // NOI18N
-        txtPatientID2.setBorder(null);
-        jPanel1.add(txtPatientID2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 70, 230, 34));
-        jPanel1.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 110, 230, 10));
+        txttexamen.setFont(new java.awt.Font("Norasi", 0, 18)); // NOI18N
+        txttexamen.setBorder(null);
+        jPanel1.add(txttexamen, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, 230, 34));
+        jPanel1.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 130, 230, 10));
 
         jLabel12.setFont(new java.awt.Font("Norasi", 0, 18)); // NOI18N
         jLabel12.setText("Fecha :");
-        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 70, 60, -1));
-        jPanel1.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 100, 230, 10));
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 20, 60, -1));
+        jPanel1.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 50, 230, 10));
 
         btnbuscar_paciente.setBackground(new java.awt.Color(72, 100, 242));
         btnbuscar_paciente.setFont(new java.awt.Font("Raleway Black", 0, 18)); // NOI18N
@@ -205,11 +171,6 @@ PreparedStatement pst=null;
         });
         jPanel1.add(btnbuscar_paciente, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 20, 70, 32));
 
-        txtPatientName1.setFont(new java.awt.Font("Norasi", 0, 18)); // NOI18N
-        txtPatientName1.setBorder(null);
-        jPanel1.add(txtPatientName1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 170, 230, 34));
-        jPanel1.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 210, 230, 10));
-
         jScrollPane2.setBorder(new javax.swing.border.LineBorder(java.awt.Color.white, 1, true));
 
         TblDoc1.setAutoCreateRowSorter(true);
@@ -230,16 +191,7 @@ PreparedStatement pst=null;
         TblDoc1.setRowHeight(25);
         jScrollPane2.setViewportView(TblDoc1);
 
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 850, 170));
-
-        jLabel13.setFont(new java.awt.Font("Norasi", 0, 18)); // NOI18N
-        jLabel13.setText("Num Factura:");
-        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 20, 120, -1));
-
-        txtPatientID3.setFont(new java.awt.Font("Norasi", 0, 18)); // NOI18N
-        txtPatientID3.setBorder(null);
-        jPanel1.add(txtPatientID3, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 10, 230, 34));
-        jPanel1.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 50, 230, 10));
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 850, 250));
 
         jPanel5.setBackground(new java.awt.Color(47, 50, 176));
         jPanel5.setPreferredSize(new java.awt.Dimension(40, 30));
@@ -395,7 +347,7 @@ PreparedStatement pst=null;
     }//GEN-LAST:event_btnNewMouseExited
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
-        new I_New_Factura(new JFrame(), true).setVisible(true);
+        
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void btnNew2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNew2MouseEntered
@@ -2541,33 +2493,21 @@ PreparedStatement pst=null;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
-    private javax.swing.JSeparator jSeparator7;
-    private javax.swing.JSeparator jSeparator8;
-    private javax.swing.JSeparator jSeparator9;
     private javax.swing.JLabel lbltitle;
-    public javax.swing.JTextField txtDisease;
-    public javax.swing.JTextField txtPatientID;
     public javax.swing.JTextField txtPatientID1;
-    public javax.swing.JTextField txtPatientID2;
-    public javax.swing.JTextField txtPatientID3;
-    public javax.swing.JTextField txtPatientName;
-    public javax.swing.JTextField txtPatientName1;
     public javax.swing.JTextField txtPatientName2;
+    public javax.swing.JTextField txtpaciente;
+    public javax.swing.JTextField txttexamen;
     // End of variables declaration//GEN-END:variables
 }
